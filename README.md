@@ -21,4 +21,4 @@ Once complete, submit your changes in form of a pull request to the master branc
 
 ## Bonus
 
-Submit a second pull request that will not allow the user to save a cat with the same breed and name. If a match already exists, the user should be taken to the create/edit form with an appropriate message. So if a cat named Tony, a Tiger currently exists, the user could not add another Tiger named Tony (but they could add a black cat named Tony).
+Submit a second pull request that will not allow the user to save a cat with the same breed and name. If a match already exists, the user should be taken to the create/edit form with an appropriate message. Then add the appropriate test. So if a cat named Tony, a Tiger currently exists, the user could not add another Tiger named Tony (but they could add a black cat named Tony).
