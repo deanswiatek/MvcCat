@@ -9,12 +9,19 @@ namespace MvcCat.Controllers
 {
     public class CatsController : Controller
     {
+        IModelCat iModelCat;
+
+        public CatsController()
+        {
+           iModelCat = new CatData();
+        }
         private CatContext db = new CatContext();
 
         // GET: Cats
         public ActionResult Index()
         {
-            var cats = db.Cats.Include(c => c.Breed).OrderBy(c => c.Name);
+            //var cats = db.Cats.Include(c => c.Breed).OrderBy(c => c.Name);       
+            var cats = iModelCat.Index();
             return View(cats.ToList());
         }
 
@@ -25,7 +32,8 @@ namespace MvcCat.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cat cat = db.Cats.Find(id);
+            //Cat cat = db.Cats.Find(id);
+            Cat cat = iModelCat.Details(id);
             if (cat == null)
             {
                 return HttpNotFound();
@@ -36,7 +44,8 @@ namespace MvcCat.Controllers
         // GET: Cats/Create
         public ActionResult Create()
         {
-            ViewBag.BreedId = new SelectList(db.Breeds, "Id", "Name");
+            //ViewBag.BreedId = new SelectList(db.Breeds, "Id", "Name");
+            ViewBag.BreedId = iModelCat.Create();
             return View();
         }
 

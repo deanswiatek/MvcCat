@@ -9,12 +9,19 @@ namespace MvcCat.Controllers
 {
     public class BreedsController : Controller
     {
+        IModelBreed iModelBreed;
+        public BreedsController()
+        {
+            iModelBreed = new BreedData();
+        }
         private CatContext db = new CatContext();
 
         // GET: Breeds
         public ActionResult Index()
         {
-            return View(db.Breeds.OrderBy(b => b.Name).ToList());
+            //db.Breeds.OrderBy(b => b.Name).ToList()
+            var Breed = iModelBreed.Index();            
+            return View(Breed.ToList());
         }
 
         // GET: Breeds/Details/5
@@ -24,7 +31,7 @@ namespace MvcCat.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Breed breed = db.Breeds.Find(id);
+            Breed breed = iModelBreed.Details(id);//db.Breeds.Find(id);
             if (breed == null)
             {
                 return HttpNotFound();
@@ -34,7 +41,7 @@ namespace MvcCat.Controllers
 
         // GET: Breeds/Create
         public ActionResult Create()
-        {
+        {            
             return View();
         }
 
@@ -45,8 +52,9 @@ namespace MvcCat.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Breeds.Add(breed);
-                db.SaveChanges();
+                //db.Breeds.Add(breed);
+                //db.SaveChanges();
+                iModelBreed.Create(breed);
                 return RedirectToAction("Index");
             }
 
@@ -60,7 +68,7 @@ namespace MvcCat.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Breed breed = db.Breeds.Find(id);
+            Breed breed = iModelBreed.SelectForEdit(id);//db.Breeds.Find(id);
             if (breed == null)
             {
                 return HttpNotFound();
@@ -89,7 +97,7 @@ namespace MvcCat.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Breed breed = db.Breeds.Find(id);
+            Breed breed = iModelBreed.SelectForDelete(id);//db.Breeds.Find(id);
             if (breed == null)
             {
                 return HttpNotFound();
@@ -102,9 +110,10 @@ namespace MvcCat.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Breed breed = db.Breeds.Find(id);
-            db.Breeds.Remove(breed);
-            db.SaveChanges();
+            //Breed breed = db.Breeds.Find(id);
+            //db.Breeds.Remove(breed);
+            //db.SaveChanges();
+            iModelBreed.ConfirmDelete(id);
             return RedirectToAction("Index");
         }
 
